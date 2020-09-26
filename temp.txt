@@ -1,0 +1,144 @@
+var gameSeed = [];
+var width = 10;
+
+function generateGameSeed(bombAmount) {
+  let bombArray = Array(bombAmount).fill("*");
+  let emptyArray = Array((width ** 2) - bombAmount).fill('0');
+  let tempSeed = emptyArray.concat(bombArray);
+  console.log(tempSeed)
+  tempSeed = tempSeed.sort(() => Math.random() - 0.4);
+
+  let num = 0;
+  for (let i = 0; i < width; i++) {
+    let row = [];
+    for (let j = 0; j < width; j++) {
+      row.push(tempSeed[num++]);
+    }
+    gameSeed.push(row);
+  }
+  // console.log(this.gameSeed);
+}
+
+
+function buildBoard() {
+  let board = document.createElement("div");
+  let num = 0;
+  board.setAttribute("class", "board");
+  for (let i = 0; i < width; i++) {
+    let blockRow = document.createElement("section");
+    blockRow.setAttribute("class", "blockRow");
+    for (let j = 0; j < width; j++) {
+      let block = document.createElement("div");
+      block.setAttribute('class', 'block');
+      block.appendChild(createButton(getNeighbourNum(i, j), i, j));
+      // block.appendChild(document.createTextNode(this.gameSeed[i][j]))
+      blockRow.appendChild(block);
+    }
+    board.appendChild(blockRow);
+  }
+  document.querySelector('#app').appendChild(board);
+}
+
+function createButton(value, row, column) {
+  let button = document.createElement("button");
+  button.setAttribute("class", "btn");
+  button.setAttribute("onclick", `reveal(${row}, ${column})`);
+  button.innerHTML = value;
+  return button;
+}
+
+function reveal(row, column) {
+  console.log(gameSeed[row][column]);
+}
+
+function getNeighbourNum(x, y) {
+  let totBomb = 0;
+  if (gameSeed[x][y] == "*") {
+    return "*";
+  } else {
+    /**
+   * [NW] [N] [NE]
+   * [W] [00] [E]
+   * [SW] [S] [SE]
+   * 
+   * [x-1, y-1] [x-1, y] [x-1, y+1]
+   * [x, y-1] [x, y] [x, y+1]
+   * [x+1, y-1] [x+1, y] [x+1, y+1]
+   */
+
+
+    // NW [x-1, y-1]
+    if (x > 0 && y > 0) {
+      if (gameSeed[x - 1][y - 1] == "*") totBomb++;
+    }
+
+    // N [x-1, y]
+    if (x > 0) {
+      if (gameSeed[x - 1][y] == "*") totBomb++;
+    }
+
+    // NE [x-1, y+1]
+    if (x > 0 && y < (width - 1)) {
+      if (gameSeed[x - 1][y + 1] == "*") totBomb++;
+    }
+
+    // W [x, y-1]
+    if (y > 0) {
+      if (gameSeed[x][y - 1] == "*") totBomb++;
+    }
+
+    // E [x, y+1]
+    if (y < (width - 1)) {
+      if (gameSeed[x][y + 1] == "*") totBomb++;
+    }
+
+    // SW [x+1, y-1]
+    if (x < (width - 1) && y > 0) {
+      if (gameSeed[x + 1][y - 1] == "*") totBomb++;
+    }
+
+    // S [x+1, y]
+    if (x < (width - 1)) {
+      if (gameSeed[x + 1][y] == "*") totBomb++;
+    }
+    // SE [x+1, y+1]
+    if (x < (width - 1) && y < (width - 1)) {
+      if (gameSeed[x + 1][y + 1] == "*") totBomb++;
+    }
+  }
+  return totBomb;
+}
+
+
+function clearBoard() {
+  document.querySelector("#app").innerHTML = "";
+}
+
+function start() {
+  let difficulty = document.querySelector('#difficulty').value;
+  if (difficulty == "easy") {
+    clearBoard();
+    cgenerateGameSeed(10);
+    buildBoard();
+  } else if (difficulty == "medium") {
+    clearBoard();
+    generateGameSeed(20);
+    buildBoard();
+  } else {
+    clearBoard();
+    generateGameSeed(30);
+    buildBoard();
+  }
+
+  let allButtons = document.querySelectorAll(".btn");
+
+  allButtons.forEach((button) => {
+    if (button.innerHTML == "0") {
+      button.innerHTML = ""
+    }
+  });
+}
+
+function displayCurrValue(elem, val) {
+  elem.innerHTML = val;
+}

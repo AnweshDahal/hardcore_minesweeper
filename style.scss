@@ -1,0 +1,107 @@
+@font-face{
+  font-family: 'Cascadia Code';
+  src: url(./CascadiaCode.woff2);
+}
+
+*{
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Cascadia Code';
+}
+body{
+  font-family: sans-serif;
+  background-color: #111111;
+}
+
+.btn{
+  width: auto;
+  padding: 10px;
+  font-size: 1.5rem;
+  background-color: #ff5100;
+  border: #7a0000 solid 2px;
+  border-radius: 2px;
+  font-weight: bold;
+  color: #7a0000;
+  &:active{
+    border: #ff0000 solid 2px;
+    color: #ff0000;
+  }
+}
+header{
+  padding:10px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #888888;
+  .controls{
+    width: 450px;
+    height: 80px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    .btns, .timer{
+      width: 50%;
+    }
+
+    .timer{
+      font-family: monospace;
+      font-size: 2rem;
+    }
+  }
+}
+
+button{
+  outline: none;
+}
+
+.board{
+  width: 450px;
+  height: 450px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  .row{
+    display: flex;
+    width: 100%;
+    .cell{
+      border: none;
+      height: 40px;
+      width: 40px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      background-color: #292929;
+      border-radius: 3px;
+      align-content: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      color: #999999;
+      font-size: 20px;
+      text-align: center;
+    }
+    .mine{
+      background-color: #770000;
+      // color: #ff0000;
+    }
+
+    .flag{
+      background-color: #ffae00;
+    }
+  }
+}
+
+.gameOverScreen{
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: #11111160;
+  h1{
+    font-family: 4rem;
+    color: #ff0000;
+    margin-bottom: 20px;
+  }
+}
+
